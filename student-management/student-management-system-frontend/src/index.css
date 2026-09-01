@@ -1,0 +1,13 @@
+
+
+.table:hover {
+    --bs-table-hover-bg: #717477;
+    --bs-table-hover-color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.navbar-brand{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
