@@ -1,169 +1,355 @@
 # Student Management System
 
-A simple Student Management System built using Spring Boot, Thymeleaf, Spring MVC, Spring Data JPA, Hibernate, and H2 Database.
+A full-stack Student Management System built using Spring Boot, React, MySQL, and Bootstrap. The application provides an admin interface for managing student records through RESTful APIs.
 
-This project is being developed version by version to learn full-stack Java backend development using the Spring ecosystem.
+## Features
 
----
+### Admin Authentication
+- Admin login
+- Protected application routes
+- Logout functionality
+- Displays the logged-in admin username
 
-# Current Version
+### Home
+- Separate home page introducing the application
+- Navigation to the dashboard and student management features
 
-## Version 1.0 Features
+### Dashboard
+- Total number of students
+- Course-wise student statistics
+- Overview of student data
 
-- Add Student
-- View Student Records
-- H2 In-Memory Database
-- Spring Boot MVC Architecture
-- Thymeleaf Frontend
-- Bootstrap UI
+### Student Management
+- Add new students
+- View all students
+- View individual student details
+- Update student records
+- Delete student records
+- Search students by name or email
+- Total student count
 
-> Note:
-> Currently the project uses an H2 in-memory database (`jdbc:h2:mem:testdb`).
-> Data is stored temporarily and will be cleared when the application stops or restarts.
+### Validation and Error Handling
+- Required field validation
+- Email format validation
+- Duplicate email prevention
+- Student not found handling
+- Global exception handling
+- Appropriate HTTP status codes for API errors
+- Success messages after creating and updating student records
+- Confirmation before deleting a student
 
----
+## Technology Stack
 
-# Screenshots
-  ## Home Page
-<img width="1919" height="1013" alt="image" src="https://github.com/user-attachments/assets/7a0e3dff-3021-4cab-a8fb-cbe47da57d28" />
+### Backend
+- Java 17
+- Spring Boot
+- Spring MVC
+- Spring Data JPA
+- Hibernate
+- MySQL
+- Maven
+- Bean Validation
+- Lombok
 
-  ## Add Student Form
-<img width="1915" height="886" alt="image" src="https://github.com/user-attachments/assets/74d24425-2d17-47b7-8896-61a0571e09ca" />
+### Frontend
+- React
+- JavaScript
+- React Router
+- Axios
+- Bootstrap
+- Vite
 
-  ## Student Records Table
-  <img width="1919" height="777" alt="image" src="https://github.com/user-attachments/assets/32fe98df-9f3e-44ff-9c79-f0d1b86f7d8b" />
+## Architecture
 
-<img width="1878" height="873" alt="image" src="https://github.com/user-attachments/assets/bd2ad283-6ef6-4390-a272-649f43b54387" />
-
-
-
-# Technologies Used
-
-| Technology | Purpose |
-|------------|---------|
-| Java | Programming Language |
-| Spring Boot | Backend Framework |
-| Spring MVC | Web Layer |
-| Spring Data JPA | Database Operations |
-| Hibernate | ORM Framework |
-| Thymeleaf | Template Engine |
-| H2 Database | Temporary In-Memory Database |
-| Bootstrap 5 | Frontend Styling |
-| Maven | Dependency Management |
-
----
-
-# Project Structure
+The application follows a layered architecture:
 
 ```text
-src
- └── main
-     ├── java
-     │    └── com.example.student_management
-     │          ├── controller
-     │          ├── entity
-     │          ├── repository
-     │          └── StudentManagementApplication.java
-     │
-     └── resources
-           ├── templates
-           └── application.properties
+React Frontend
+       |
+       | HTTP / REST API
+       v
+Controller Layer
+       |
+       v
+Service Layer
+       |
+       v
+Repository Layer
+       |
+       v
+JPA / Hibernate
+       |
+       v
+MySQL Database
 ```
 
----
+### Backend Layers
 
-# How to Run the Project
+**Controller Layer**
+- Handles HTTP requests and responses
+- Defines REST API endpoints
+- Receives request data from the frontend
 
-## 1. Clone Repository
+**Service Layer**
+- Contains business logic
+- Handles operations such as duplicate email validation
+- Coordinates between controllers and repositories
+
+**Repository Layer**
+- Uses Spring Data JPA
+- Performs database operations
+- Uses custom queries for student search and course statistics
+
+**Entity Layer**
+- Represents database entities using JPA annotations
+- Includes `Student` and `Admin` entities
+
+**DTO Layer**
+- Used for transferring specific data between the frontend and backend
+- Includes login and course statistics DTOs
+
+**Exception Layer**
+- Provides centralized exception handling for API errors
+
+## REST API
+
+### Authentication
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/auth/login` | Authenticate admin |
+
+### Student APIs
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/students` | Retrieve all students |
+| GET | `/students/{id}` | Retrieve a student by ID |
+| GET | `/students/count` | Retrieve total student count |
+| GET | `/students/course-stats` | Retrieve course-wise student statistics |
+| GET | `/students/search?keyword=` | Search students |
+| POST | `/students` | Create a new student |
+| PUT | `/students/{id}` | Update an existing student |
+| DELETE | `/students/{id}` | Delete a student |
+
+## Database
+
+The application uses MySQL for persistent data storage.
+
+### Student Entity
+
+| Field | Description |
+|-------|-------------|
+| `id` | Unique student identifier |
+| `firstName` | Student first name |
+| `lastName` | Student last name |
+| `email` | Unique student email |
+| `course` | Student course |
+
+### Admin Entity
+
+| Field | Description |
+|-------|-------------|
+| `id` | Unique admin identifier |
+| `username` | Admin username |
+| `password` | Admin password |
+
+## Project Structure
+
+```text
+student-management-system/
+│
+├── student-management-system-backend/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── com/sms/
+│   │   │   │       ├── controller/
+│   │   │   │       ├── dto/
+│   │   │   │       ├── entity/
+│   │   │   │       ├── exception/
+│   │   │   │       ├── repository/
+│   │   │   │       └── service/
+│   │   │   │
+│   │   │   └── resources/
+│   │   │
+│   │   └── test/
+│   │
+│   └── pom.xml
+│
+├── student-management-system-frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── services/
+│   │   └── utils/
+│   │
+│   ├── public/
+│   ├── package.json
+│   └── vite.config.js
+│
+└── README.md
+```
+
+## Application Flow
+
+```text
+Admin Login
+     |
+     v
+Home
+     |
+     ├── Dashboard
+     │     ├── Total Students
+     │     └── Course Statistics
+     │
+     └── Student Management
+           ├── View Students
+           ├── Search Students
+           ├── Add Student
+           ├── Edit Student
+           └── Delete Student
+```
+
+## Key Implementation Details
+
+- Constructor-based dependency injection is used throughout the backend.
+- Spring Data JPA is used for database persistence.
+- Hibernate is used as the JPA implementation.
+- REST APIs provide communication between the React frontend and Spring Boot backend.
+- Axios is used by React for API communication.
+- React Router is used for navigation and protected routes.
+- Bean Validation is used to validate student input.
+- Student email is enforced as unique at the database level.
+- Service-level validation prevents duplicate email entries.
+- JPQL queries are used for student search and course-wise statistics.
+- A global exception handler provides centralized API error handling.
+- The frontend displays appropriate success and error messages to the user.
+
+## Getting Started
+
+### Prerequisites
+
+Make sure the following are installed:
+
+- Java 17 or later
+- Maven
+- Node.js
+- MySQL
+- Git
+
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/student-management-system.git
+git clone <your-repository-url>
+cd student-management-system
 ```
 
----
+### 2. Configure MySQL
 
-## 2. Open Project
+Create the database:
 
-Open the project in:
+```sql
+CREATE DATABASE student_management_system;
+```
 
-- IntelliJ IDEA
-- Spring Tool Suite
-- VS Code
+Configure the database connection in:
 
----
+```text
+student-management-system-backend/src/main/resources/application.properties
+```
 
-## 3. Run Application
+Example:
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/student_management_system
+spring.datasource.username=YOUR_USERNAME
+spring.datasource.password=YOUR_PASSWORD
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+```
+
+Replace `YOUR_USERNAME` and `YOUR_PASSWORD` with your local MySQL credentials.
+
+### 3. Run the Backend
+
+Open a terminal in the backend directory:
+
+```bash
+cd student-management-system-backend
+```
 
 Run:
 
-```text
-StudentManagementApplication.java
+```bash
+mvn spring-boot:run 
 ```
 
----
+or if you are using STS then select the project folder and right click to find Run As option -> Spring Boot App.
 
-## 4. Open Browser
+The backend runs on:
 
 ```text
 http://localhost:8080
 ```
 
----
+### 4. Run the Frontend
 
-# Current CRUD Status
+Open another terminal:
 
-| Operation | Status |
-|-----------|--------|
-| Create Student | Completed |
-| Read Students | Completed |
-| Update Student | Planned |
-| Delete Student | Planned |
+```bash
+cd student-management-system-frontend
+```
 
----
+Install dependencies:
 
-# Planned Future Versions
+```bash
+npm install
+```
 
-## Version 2.0
-- Update Student
-- Delete Student
+Start the React application:
 
-## Version 3.0
-- MySQL Database Integration
-- Permanent Data Storage
+```bash
+npm run dev
+```
 
-## Version 4.0
-- Form Validation
-- Error Handling
+The frontend runs on:
 
-## Version 5.0
-- Search Functionality
-- Pagination
+```text
+http://localhost:5173
+```
 
-## Version 6.0
-- Spring Security Authentication
-- Login System
+## Future Improvements
 
-## Version 7.0
-- REST API Development
-- React Frontend Integration
+Possible future enhancements include:
 
----
+- Server-side pagination
+- Advanced filtering and sorting
+- Role-based authorization
+- Separate course management
+- Unit and integration testing
+- Improved API response models
+- Cloud deployment
+- Production-ready authentication and authorization
 
-# Learning Outcomes
+## Learning Outcomes
 
-This project helps in understanding:
+Through this project, I gained practical experience with:
 
-- Spring Boot MVC Architecture
-- CRUD Operations
-- Thymeleaf Templating
-- Spring Data JPA
-- Hibernate ORM
-- Frontend + Backend Integration
-- Maven Project Structure
-- Git & GitHub Workflow
+- Building RESTful APIs using Spring Boot
+- Developing a React frontend
+- Connecting React with Spring Boot APIs
+- Database persistence using Spring Data JPA and Hibernate
+- MySQL database integration
+- Layered backend architecture
+- CRUD operations
+- Input validation and exception handling
+- Frontend routing and protected routes
+- API integration using Axios
+- Git and GitHub version control
 
----
+## Author
 
-# License
+**Aasritha**
 
-This project is developed for learning and educational purposes.
+Java Full Stack Learning Project
